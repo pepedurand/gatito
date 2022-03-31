@@ -1,9 +1,9 @@
-const TabelaFornecedor = require('./tabelaFornecedor')
+const TabelaFornecedor = require('./TabelaFornecedor')
 const CampoInvalido = require('../../erros/CampoInvalido')
-const DadosNaoFornecidos = require ('../../erros/DadosNaoFornecidos')
+const DadosNaoFornecidos = require('../../erros/DadosNaoFornecidos')
 
 class Fornecedor {
-    constructor ({id, empresa, email, categoria, dataCriacao, dataAtualizacao, versao}) {
+    constructor ({ id, empresa, email, categoria, dataCriacao, dataAtualizacao, versao }) {
         this.id = id
         this.empresa = empresa
         this.email = email
@@ -20,6 +20,7 @@ class Fornecedor {
             email: this.email,
             categoria: this.categoria
         })
+
         this.id = resultado.id
         this.dataCriacao = resultado.dataCriacao
         this.dataAtualizacao = resultado.dataAtualizacao
@@ -37,22 +38,23 @@ class Fornecedor {
     }
 
     async atualizar () {
-       await TabelaFornecedor.pegarPorId(this.id)
-       const campos = ['empresa', 'email', 'categoria']
-       const dadosParaAtualizar = {}
+        await TabelaFornecedor.pegarPorId(this.id)
+        const campos = ['empresa', 'email', 'categoria']
+        const dadosParaAtualizar = {}
 
-       campos.forEach((campo) => {
-           const valor = this[campo]
-           if (typeof valor === 'string' && valor.length > 0) {
-               dadosParaAtualizar[campo] = valor
-           }
-       })
+        campos.forEach((campo) => {
+            const valor = this[campo]
 
-       if (Object.keys(dadosParaAtualizar).length === 0) {
-           throw new DadosNaoFornecidos ()
-       }
+            if (typeof valor === 'string' && valor.length > 0) {
+                dadosParaAtualizar[campo] = valor
+            }
+        })
 
-       await TabelaFornecedor.atualizar(this.id, dadosParaAtualizar)
+        if (Object.keys(dadosParaAtualizar).length === 0) {
+            throw new DadosNaoFornecidos()
+        }
+
+        await TabelaFornecedor.atualizar(this.id, dadosParaAtualizar)
     }
 
     remover () {

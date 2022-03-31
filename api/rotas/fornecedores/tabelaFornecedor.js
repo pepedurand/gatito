@@ -1,15 +1,15 @@
-const modelo = require ('./modeloTabelaFornecedor')
+const Modelo = require('./ModeloTabelaFornecedor')
 const NaoEncontrado = require('../../erros/NaoEncontrado')
 
 module.exports = {
-    listar() {
-        return modelo.findAll()
+    listar () {
+        return Modelo.findAll({ raw: true })
     },
     inserir (fornecedor) {
-        return modelo.create(fornecedor)
+        return Modelo.create(fornecedor)
     },
     async pegarPorId (id) {
-        const encontrado = await modelo.findOne({
+        const encontrado = await Modelo.findOne({
             where: {
                 id: id
             }
@@ -22,16 +22,16 @@ module.exports = {
         return encontrado
     },
     atualizar (id, dadosParaAtualizar) {
-        return modelo.update(
+        return Modelo.update(
             dadosParaAtualizar,
             {
-                where: { id:id }
+                where: { id: id }
             }
         )
     },
     remover (id) {
-        return modelo.destroy ({
-            where: { id: id}
+        return Modelo.destroy({
+            where: { id: id }
         })
     }
 }
